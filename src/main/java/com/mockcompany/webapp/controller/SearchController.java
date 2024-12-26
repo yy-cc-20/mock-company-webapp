@@ -65,18 +65,6 @@ public class SearchController {
     @GetMapping("/api/products/search")
     public Collection<ProductItem> search(@RequestParam("query") String query) {
         /*
-         * TODO: !!!! Implement this method !!!!
-         *  The easiest implementation will be to use the findAll as we are below. Then filter using Java
-         *  string methods such as contains(...), toLowerCase(...), equals(...), etc.
-         *
-         *  The requirements are defined in src/test/groovy/com/mockcompany/webapp/controller/SearchControllerSpec.groovy
-         *
-         *  Read through the tests to get an idea of how search should work.  When the tests are written before the code,
-         *  it is known as Test Driven Development (TDD) and is a common best practice. The Spock framework is a great
-         *  framework for TDD because the tests are written very descriptively using sentences.
-         *
-         *    https://spockframework.org/spock/docs/2.0/spock_primer.html
-         *
          *  For an added challenge, update the ProductItemRepository to do the filtering at the database layer :)
          */
 
@@ -85,10 +73,24 @@ public class SearchController {
 
         // This is a loop that the code inside will execute on each of the items from the database.
         for (ProductItem item : allItems) {
-            // TODO: Figure out if the item should be returned based on the query parameter!
-            boolean matchesSearch = true;
+            if (query.charAt(0) == '"' && query.charAt(query.length() - 1) == '"') {
+                // exact match
+                String queryWithoutQuotes = query.substring(1, query.length() - 1);
+                if (!(item.getName().equalsIgnoreCase(queryWithoutQuotes)
+                        || item.getDescription().equalsIgnoreCase(queryWithoutQuotes)))
+                    continue;
+            } else {
+                // partial match
+                if (!(item.getName().toLowerCase().contains(query.toLowerCase())
+                        || item.getDescription().toLowerCase().contains(query.toLowerCase())))
+                    continue;
+            }
+
             itemList.add(item);
         }
         return itemList;
+
+        // filter from database layer
+        //return this.productItemRepository.findByNameOrDescriptionEqualsOrContainsIgnoreCase(query);
     }
 }
