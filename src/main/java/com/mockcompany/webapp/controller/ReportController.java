@@ -1,15 +1,15 @@
 package com.mockcompany.webapp.controller;
 
 import com.mockcompany.webapp.api.SearchReportResponse;
-import com.mockcompany.webapp.model.ProductItem;
 import com.mockcompany.webapp.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityManager;
-import java.util.*;
-import java.util.regex.Pattern;
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * Management decided it is super important that we have lots of products that match the following terms.
@@ -19,12 +19,18 @@ import java.util.regex.Pattern;
 @RestController
 public class ReportController {
 
-    /**
-     * The people that wrote this code didn't know about JPA Spring Repository interfaces!
-     */
+    // After reading code/tests, we can capture the important terms in an array!
+    private static final String[] importantTerms = new String[] {
+            "Cool",
+            "Amazing",
+            "Perfect",
+            "Kids"
+    };
+
     private final EntityManager entityManager;
     private final SearchService searchService;
 
+    // Add the SearchService to the constructor
     @Autowired
     public ReportController(EntityManager entityManager, SearchService searchService) {
         this.entityManager = entityManager;
@@ -52,6 +58,11 @@ public class ReportController {
         // search "Amazing"
         response.getSearchTermHits().put("Amazing", searchService.search("Amazing").size());
 
+
+        // Transform to API response and return
+        SearchReportResponse response = new SearchReportResponse();
+        response.setProductCount(count.intValue());
+        response.setSearchTermHits(hits);
         return response;
     }
 }

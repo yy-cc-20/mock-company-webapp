@@ -15,6 +15,7 @@ package com.mockcompany.webapp.controller;
  * An import statement allows the current class to use the class being imported
  */
 import com.mockcompany.webapp.model.ProductItem;
+import com.mockcompany.webapp.service.SearchService;
 /* The springframework package allows us to take advantage of the spring capabilities */
 import com.mockcompany.webapp.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,13 +40,9 @@ import java.util.Collection;
 @RestController
 public class SearchController {
 
-    /**
-     * This is a instance field.  It is provided by the spring framework through the constructor because of the
-     * @Autowired annotation.  Autowire tells the spring framework to automatically find and use an instance of
-     * the declared class when creating this class.
-     */
     private final SearchService searchService;
 
+    // Update constructor to inject SearchService
     @Autowired
     public SearchController(SearchService searchService) {
         this.searchService = searchService;
