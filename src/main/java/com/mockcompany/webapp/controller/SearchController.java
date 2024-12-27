@@ -17,7 +17,6 @@ package com.mockcompany.webapp.controller;
 import com.mockcompany.webapp.model.ProductItem;
 import com.mockcompany.webapp.service.SearchService;
 /* The springframework package allows us to take advantage of the spring capabilities */
-import com.mockcompany.webapp.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

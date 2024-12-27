@@ -19,14 +19,6 @@ import java.util.Map;
 @RestController
 public class ReportController {
 
-    // After reading code/tests, we can capture the important terms in an array!
-    private static final String[] importantTerms = new String[] {
-            "Cool",
-            "Amazing",
-            "Perfect",
-            "Kids"
-    };
-
     private final EntityManager entityManager;
     private final SearchService searchService;
 
@@ -58,11 +50,6 @@ public class ReportController {
         // search "Amazing"
         response.getSearchTermHits().put("Amazing", searchService.search("Amazing").size());
 
-
-        // Transform to API response and return
-        SearchReportResponse response = new SearchReportResponse();
-        response.setProductCount(count.intValue());
-        response.setSearchTermHits(hits);
         return response;
     }
 }
