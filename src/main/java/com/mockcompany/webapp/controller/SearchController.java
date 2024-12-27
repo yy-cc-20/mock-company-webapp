@@ -17,15 +17,13 @@ package com.mockcompany.webapp.controller;
 import com.mockcompany.webapp.data.ProductItemRepository;
 import com.mockcompany.webapp.model.ProductItem;
 /* The springframework package allows us to take advantage of the spring capabilities */
+import com.mockcompany.webapp.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/* java.util package provides useful utilities */
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * This class is the entrypoint for the /api/products/search API.  It is "annotated" with
@@ -47,11 +45,13 @@ public class SearchController {
      * @Autowired annotation.  Autowire tells the spring framework to automatically find and use an instance of
      * the declared class when creating this class.
      */
+    private final SearchService searchService;
     private final ProductItemRepository productItemRepository;
 
     @Autowired
     public SearchController(ProductItemRepository productItemRepository) {
         this.productItemRepository = productItemRepository;
+        this.searchService = new SearchService();
     }
 
     /**
@@ -64,33 +64,6 @@ public class SearchController {
      */
     @GetMapping("/api/products/search")
     public Collection<ProductItem> search(@RequestParam("query") String query) {
-        /*
-         *  For an added challenge, update the ProductItemRepository to do the filtering at the database layer :)
-         */
-
-        Iterable<ProductItem> allItems = this.productItemRepository.findAll();
-        List<ProductItem> itemList = new ArrayList<>();
-
-        // This is a loop that the code inside will execute on each of the items from the database.
-        for (ProductItem item : allItems) {
-            if (query.charAt(0) == '"' && query.charAt(query.length() - 1) == '"') {
-                // exact match
-                String queryWithoutQuotes = query.substring(1, query.length() - 1);
-                if (!(item.getName().equalsIgnoreCase(queryWithoutQuotes)
-                        || item.getDescription().equalsIgnoreCase(queryWithoutQuotes)))
-                    continue;
-            } else {
-                // partial match
-                if (!(item.getName().toLowerCase().contains(query.toLowerCase())
-                        || item.getDescription().toLowerCase().contains(query.toLowerCase())))
-                    continue;
-            }
-
-            itemList.add(item);
-        }
-        return itemList;
-
-        // filter from database layer
-        //return this.productItemRepository.findByNameOrDescriptionEqualsOrContainsIgnoreCase(query);
+        return this.searchService.search(query, this.productItemRepository);
     }
 }
