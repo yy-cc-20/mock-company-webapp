@@ -14,7 +14,6 @@ package com.mockcompany.webapp.controller;
 /*
  * An import statement allows the current class to use the class being imported
  */
-import com.mockcompany.webapp.data.ProductItemRepository;
 import com.mockcompany.webapp.model.ProductItem;
 /* The springframework package allows us to take advantage of the spring capabilities */
 import com.mockcompany.webapp.service.SearchService;
@@ -46,12 +45,10 @@ public class SearchController {
      * the declared class when creating this class.
      */
     private final SearchService searchService;
-    private final ProductItemRepository productItemRepository;
 
     @Autowired
-    public SearchController(ProductItemRepository productItemRepository) {
-        this.productItemRepository = productItemRepository;
-        this.searchService = new SearchService();
+    public SearchController(SearchService searchService) {
+        this.searchService = searchService;
     }
 
     /**
@@ -64,6 +61,6 @@ public class SearchController {
      */
     @GetMapping("/api/products/search")
     public Collection<ProductItem> search(@RequestParam("query") String query) {
-        return this.searchService.search(query, this.productItemRepository);
+        return this.searchService.search(query);
     }
 }
