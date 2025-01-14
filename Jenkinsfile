@@ -2,6 +2,18 @@ pipeline {
     agent any
 
     stages {
+        stage('Setup Node.js') {
+            steps {
+                sh '''
+                    # Install Node.js and npm
+                    curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+                    apt-get install -y nodejs
+                    node -v
+                    npm -v
+                '''
+            }
+        }
+
         stage('Build') {
             steps {
                 echo 'Starting Build'
