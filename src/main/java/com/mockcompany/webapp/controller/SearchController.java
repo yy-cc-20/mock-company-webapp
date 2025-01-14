@@ -57,7 +57,7 @@ public class SearchController {
      */
     @GetMapping("/api/products/search")
     public Collection<ProductItem> search(@RequestParam("query") String query) {
-        return Collections.emptyList();
+        return this.productItemRepository.findAll();
         //return this.searchService.search(query);
     }
 }
