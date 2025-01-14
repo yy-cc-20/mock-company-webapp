@@ -2,13 +2,15 @@ pipeline {
     agent any
 
     stages {
-        stage('Setup Node') {
+        stage('Setup Node.js') {
             steps {
-                // Install the specified Node.js version using nvm
                 sh '''
-                . ~/.nvm/nvm.sh
-                nvm install 16
-                nvm use 16
+                    # Install Node.js and npm
+                    curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+                    apt-get update -y
+                    apt-get install -y nodejs
+                    node -v
+                    npm -v
                 '''
             }
         }
