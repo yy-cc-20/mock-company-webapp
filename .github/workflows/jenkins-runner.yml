@@ -16,5 +16,5 @@ jobs:
       - name: Run Jenkinsfile using Jenkinsfile Runner
         uses: jenkinsci/jenkinsfile-runner-github-actions@v0.2
         with:
-          jenkinsfile: ./Jenkinsfile  # Path to your Jenkinsfile
-          plugins: ./plugins.txt      # Optional: List of plugins if required
+          entryPoint: ./Jenkinsfile
+          args: "--plugins ./plugins.txt"
