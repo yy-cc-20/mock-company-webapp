@@ -5,9 +5,6 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Starting Build'
-                sh 'cd client-app'
-                sh 'npm install'
-                sh 'cd ../'
                 sh './gradlew assemble'
             }
         }
