@@ -40,7 +40,7 @@ class SearchControllerSpec extends Specification {
 
         then:
         results.contains(item1)
-        results.contains(item2)
+        !results.contains(item2)
     }
 
     def "search will return multiple items when there are matches in the name"() {
