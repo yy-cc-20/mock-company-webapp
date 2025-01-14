@@ -57,7 +57,6 @@ public class SearchController {
      */
     @GetMapping("/api/products/search")
     public Collection<ProductItem> search(@RequestParam("query") String query) {
-        return null;
-        //return this.searchService.search(query);
+        return this.searchService.search(query);
     }
 }
