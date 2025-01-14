@@ -16,9 +16,13 @@ pipeline {
                     nvm install 16
                     nvm use 16
 
+                    # Install Yarn globally
+                    npm install -g yarn
+
                     # Verify installation
                     node -v
                     npm -v
+                    yarn --version
                 '''
             }
         }
