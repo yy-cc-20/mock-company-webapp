@@ -5,24 +5,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Starting Build'
-                script {
-                    def exitCode = sh(script: './gradlew assemble', returnStatus: true)
-                    if (exitCode != 0) {
-                        error "Build failed with exit code ${exitCode}"
-                    }
-                }
+                sh './gradlew assemble'
             }
         }
 
         stage('Unit Test') {
             steps {
                 echo 'Starting Tests'
-                script {
-                    def exitCode = sh(script: './gradlew test', returnStatus: true)
-                    if (exitCode != 0) {
-                        error "Unit tests failed with exit code ${exitCode}"
-                    }
-                }
+                sh './gradlew test'
             }
         }
     }
