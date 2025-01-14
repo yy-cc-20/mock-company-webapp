@@ -10,8 +10,9 @@ pipeline {
 
                     # Load NVM (ensure it matches your shell environment)
                     export NVM_DIR="$HOME/.nvm"
-                    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+                    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
+                    # Install and use Node.js 16
                     nvm install 16
                     nvm use 16
 
