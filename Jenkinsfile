@@ -4,6 +4,27 @@ pipeline {
     stages {
         stage('Setup Node.js with NVM') {
             steps {
+                sh '''
+                    # Install NVM
+                    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+
+                    # Load NVM (ensure it matches your shell environment)
+                    export NVM_DIR="$HOME/.nvm"
+                    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+                    # Install and use Node.js 16
+                    nvm install 16
+                    nvm use 16
+
+                    # Verify installation
+                    node -v
+                    npm -v
+                '''
+            }
+        }
+
+        stage('Build') {
+            steps {
                 echo 'Starting Build'
                 sh '''
                     # Reinitialize NVM
@@ -16,13 +37,6 @@ pipeline {
                     # Run Gradle build
                     ./gradlew assemble
                 '''
-            }
-        }
-
-        stage('Build') {
-            steps {
-                echo 'Starting Build'
-                sh './gradlew assemble'
             }
         }
 
