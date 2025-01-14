@@ -2,13 +2,20 @@ pipeline {
     agent any
 
     stages {
-        stage('Setup Node.js') {
+        stage('Setup Node.js with NVM') {
             steps {
                 sh '''
-                    # Install Node.js and npm
-                    curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
-                    apt-get update -y
-                    apt-get install -y nodejs
+                    # Install NVM
+                    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+
+                    # Load NVM (ensure it matches your shell environment)
+                    export NVM_DIR="$HOME/.nvm"
+                    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+                    nvm install 16
+                    nvm use 16
+
+                    # Verify installation
                     node -v
                     npm -v
                 '''
